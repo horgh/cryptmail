@@ -14,6 +14,7 @@ namespace eval sendmail {
 	variable tls 0
 	variable username {}
 	variable password {}
+	variable from will@summercat.com
 }
 
 proc sendmail::sendmail {recipient subject body} {
@@ -26,4 +27,4 @@ proc sendmail::sendmail {recipient subject body} {
 set content [read -nonewline stdin]
 set subject "Status update from [info hostname]"
 set result [sendmail::sendmail will@summercat.com $subject $content]
-puts "result: $result"
+#puts "result: $result"
