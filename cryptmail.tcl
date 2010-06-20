@@ -17,12 +17,12 @@ namespace eval cryptmail {
 	variable to will@summercat.com
 
 	# mail server settings
+	variable from will@summercat.com
 	variable server shawmail.vc.shawcable.net
 	variable port 25
 	variable tls 0
 	variable username {}
 	variable password {}
-	variable from will@summercat.com
 
 	# gpg settings
 	variable gpg_path /usr/bin/gpg
