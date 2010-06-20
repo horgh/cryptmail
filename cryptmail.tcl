@@ -19,7 +19,7 @@ namespace eval cryptmail {
 	# to also allow "transparent" usage of script, i.e. print to stdout what was
 	# given to script, output this same data to stdout; allows regular crontab
 	# mail handling
-	variable transparent 0
+	variable transparent 1
 
 	# mail server settings
 	variable from will@summercat.com
