@@ -44,9 +44,15 @@ proc cryptmail::encrypt {text} {
 	return [exec -ignorestderr $cryptmail::gpg_path --recipient $cryptmail::key -o - --armor --encrypt << $text]
 }
 
-set body [read -nonewline stdin]
+set body [read stdin]
+
+if {$body == ""} {
+	return
+}
+
 if {$cryptmail::encrypt} {
 	set body [cryptmail::encrypt $body]
 }
+
 set result [cryptmail::sendmail $cryptmail::to $cryptmail::subject $body]
 #puts "result of cryptmail: $result"
