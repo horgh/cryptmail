@@ -6,14 +6,14 @@
 # given server
 #
 # e.g. use to encrypt and mail result of a script:
-# ./script 2>&1 | ./cryptmail.tcl
+# ./script 2>&1 | ./cryptmail.tcl "this goes in subject after hostname"
 #
 
 package require smtp
 package require mime
 
 namespace eval cryptmail {
-	variable subject "Status update from [info hostname]"
+	variable subject "[info hostname]: [lindex $argv 0]"
 	variable to will@summercat.com
 
 	# mail server settings
