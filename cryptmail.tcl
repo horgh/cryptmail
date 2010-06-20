@@ -1,13 +1,52 @@
 #!/usr/bin/env tclsh8.5
 #
-# June 19 2010
+# June 18 2010
 #
-# Encrypt data from stdin into stdout
+# Read from stdin, encrypt with gpg, and mail to configured address using
+# given server
 #
 # e.g. use to encrypt and mail result of a script:
-# ./script | ./cryptmail.tcl | ./sendmail.tcl
+# ./script 2>&1 | ./cryptmail.tcl
+#
 
-set key 0A6B501F
-set gpg /usr/bin/gpg
+package require smtp
+package require mime
 
-puts [exec $gpg --recipient $key -o - --armor --encrypt]
+namespace eval cryptmail {
+	variable subject "Status update from [info hostname]"
+	variable to will@summercat.com
+
+	# mail server settings
+	variable server shawmail.vc.shawcable.net
+	variable port 25
+	variable tls 0
+	variable username {}
+	variable password {}
+	variable from will@summercat.com
+
+	# gpg settings
+	variable gpg_path /usr/bin/gpg
+	variable key 0A6B501F
+	# set to 0 to not encrypt
+	variable encrypt 1
+}
+
+proc cryptmail::sendmail {recipient subject body} {
+	set token [mime::initialize -canonical text/plain -string $body]
+	mime::setheader $token Subject $subject
+	smtp::sendmessage $token -servers $cryptmail::server -recipients $recipient -originator $cryptmail::from -ports $cryptmail::port -usetls $cryptmail::tls -username $cryptmail::username -password $cryptmail::password
+	mime::finalize $token
+}
+
+proc cryptmail::encrypt {text} {
+	# -o - makes output go to stdout
+	# -ignorestderr makes no error raised on exec if stderr input
+	return [exec -ignorestderr $cryptmail::gpg_path --recipient $cryptmail::key -o - --armor --encrypt << $text]
+}
+
+set body [read -nonewline stdin]
+if {$cryptmail::encrypt} {
+	set body [cryptmail::encrypt $body]
+}
+set result [cryptmail::sendmail $cryptmail::to $cryptmail::subject $body]
+#puts "result of cryptmail: $result"
