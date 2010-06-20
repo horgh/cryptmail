@@ -16,6 +16,11 @@ namespace eval cryptmail {
 	variable subject "[info hostname]: [lindex $argv 0]"
 	variable to will@summercat.com
 
+	# to also allow "transparent" usage of script, i.e. print to stdout what was
+	# given to script, output this same data to stdout; allows regular crontab
+	# mail handling
+	variable transparent 0
+
 	# mail server settings
 	variable from will@summercat.com
 	variable server shawmail.vc.shawcable.net
@@ -45,6 +50,10 @@ proc cryptmail::encrypt {text} {
 }
 
 set body [read stdin]
+
+if {$cryptmail::transparent} {
+	puts $body
+}
 
 if {$body == ""} {
 	return
