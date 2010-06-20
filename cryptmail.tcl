@@ -51,12 +51,13 @@ proc cryptmail::encrypt {text} {
 
 set body [read stdin]
 
-if {$cryptmail::transparent} {
-	puts $body
-}
-
 if {$body == ""} {
 	return
+}
+
+
+if {$cryptmail::transparent} {
+	puts $body
 }
 
 if {$cryptmail::encrypt} {
