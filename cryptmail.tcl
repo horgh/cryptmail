@@ -7,6 +7,7 @@
 #
 # e.g. use to encrypt and mail result of a script:
 # ./script 2>&1 | ./cryptmail.tcl "this goes in subject after hostname"
+# 2>&1 so we get stderr as well
 #
 
 package require smtp
