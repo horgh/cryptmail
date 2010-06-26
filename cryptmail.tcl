@@ -2,12 +2,17 @@
 #
 # June 18 2010
 #
+# Requires GPG
+#
 # Read from stdin, encrypt with gpg, and mail to configured address using
 # given server
 #
 # e.g. use to encrypt and mail result of a script:
 # ./script 2>&1 | ./cryptmail.tcl "this goes in subject after hostname"
 # 2>&1 so we get stderr as well
+#
+# BUGS:
+#  - tls connection seems to not work
 #
 
 package require smtp
@@ -16,11 +21,6 @@ package require mime
 namespace eval cryptmail {
 	variable subject "[info hostname]: [lindex $argv 0]"
 	variable to will@summercat.com
-
-	# to also allow "transparent" usage of script, i.e. print to stdout what was
-	# given to script, output this same data to stdout; allows regular crontab
-	# mail handling
-	variable transparent 1
 
 	# mail server settings
 	variable from will@summercat.com
@@ -33,8 +33,14 @@ namespace eval cryptmail {
 	# gpg settings
 	variable gpg_path /usr/bin/gpg
 	variable key 0A6B501F
+
 	# set to 0 to not encrypt
 	variable encrypt 1
+
+	# to also allow "transparent" usage of script, i.e. print to stdout what was
+	# given to script, output this same data to stdout; allows regular crontab
+	# mail handling
+	variable transparent 1
 }
 
 proc cryptmail::sendmail {recipient subject body} {
