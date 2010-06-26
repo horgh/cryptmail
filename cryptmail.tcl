@@ -21,9 +21,9 @@ package require mime
 namespace eval cryptmail {
 	variable subject "[info hostname]: [lindex $argv 0]"
 	variable to will@summercat.com
+	variable from will@summercat.com
 
 	# mail server settings
-	variable from will@summercat.com
 	variable server shawmail.vc.shawcable.net
 	variable port 25
 	variable tls 0
