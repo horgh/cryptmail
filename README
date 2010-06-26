@@ -1,0 +1,1 @@
+Tcl script which reads data from stdin, optionally encrypts with GPG, and mails it using specified mail server
