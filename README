@@ -1,1 +1,12 @@
 Tcl script which reads data from stdin, optionally encrypts with GPG, and mails it using specified mail server
+
+Export a private key from existing GPG wallet:
+$ gpg --armor --export-secret-key <KEYID>
+
+Add key to another GPG wallet:
+$ gpg --import (then paste to stdin)
+
+Then to trust that key:
+$ gpg --edit-key email@address.com
+> trust
+(enter trust level. e.g. 5)
