@@ -24,6 +24,8 @@ namespace eval cryptmail {
 	variable from will@summercat.com
 
 	# mail server settings
+	# For Uniserve:
+	#variable server mail.uniserve.com
 	variable server shawmail.vc.shawcable.net
 	variable port 25
 	variable tls 0
