@@ -1,4 +1,5 @@
-Tcl script which reads data from stdin, optionally encrypts with GPG, and mails it using specified mail server
+Tcl script which reads data from stdin, optionally encrypts with GPG, and
+mails it using specified mail server
 
 Export a private key from existing GPG wallet:
 $ gpg --armor --export-secret-key <KEYID>
